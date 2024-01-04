@@ -279,8 +279,12 @@ module.exports = {
       // Index the safe.
 
       async ensureSafeIndexes() {
-        await self.safe.createIndex({ username: 1 }, { unique: true });
+        await self.safe.createIndex({ username: 1 }, {
+          name: 'username_unique_index',
+          unique: true
+        });
         await self.safe.createIndex({ email: 1 }, {
+          name: 'email_unique_sparse_idx',
           unique: true,
           sparse: true
         });

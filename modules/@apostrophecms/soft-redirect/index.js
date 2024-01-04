@@ -85,7 +85,7 @@ module.exports = {
     return {
 
       async createIndexes() {
-        return self.apos.doc.db.createIndex({ historicUrls: 1 });
+        return self.apos.doc.db.createIndex({ historicUrls: 1 }, { name: 'historicUrls_index' });
       },
 
       // Remove any protocol, `//` and host/port/auth from URL

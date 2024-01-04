@@ -621,7 +621,10 @@ module.exports = {
 
       async enableBearerTokens() {
         self.bearerTokens = self.apos.db.collection('aposBearerTokens');
-        await self.bearerTokens.createIndex({ expires: 1 }, { expireAfterSeconds: 0 });
+        await self.bearerTokens.createIndex({ expires: 1 }, {
+          name: 'expires_bearer_token_ttl_index',
+          expireAfterSeconds: 0
+        });
       },
 
       // Finalize an incomplete login based on the provided incompleteToken

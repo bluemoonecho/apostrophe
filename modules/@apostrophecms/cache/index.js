@@ -96,8 +96,14 @@ module.exports = {
         await self.cacheCollection.createIndex({
           namespace: 1,
           key: 1
-        }, { unique: true });
-        await self.cacheCollection.createIndex({ expires: 1 }, { expireAfterSeconds: 0 });
+        }, {
+          name: 'namespace_key_unique_index',
+          unique: true
+        });
+        await self.cacheCollection.createIndex({ expires: 1 }, {
+          name: 'expires_ttl_index',
+          expireAfterSeconds: 0
+        });
       }
 
     };

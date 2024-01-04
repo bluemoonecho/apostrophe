@@ -450,7 +450,10 @@ module.exports = {
       },
       async createSlugIndex() {
         const params = self.getSlugIndexParams();
-        return self.db.createIndex(params, { unique: true });
+        return self.db.createIndex(params, {
+          name: 'slug_unique_index',
+          unique: true
+        });
       },
       getSlugIndexParams() {
         return {
@@ -469,36 +472,36 @@ module.exports = {
         await self.db.createIndex({
           type: 1,
           aposLocale: 1
-        }, {});
+        }, { name: 'type_aposLocale_index' });
         await self.createSlugIndex();
         await self.db.createIndex({
           titleSortified: 1,
           aposLocale: 1
-        }, {});
+        }, { name: 'titleSortified_aposLocale_index' });
         await self.db.createIndex({
           updatedAt: -1,
           aposLocale: 1
-        }, {});
+        }, { name: 'updateAt_aposLocale_index' });
         await self.db.createIndex({
           relatedReverseIds: 1,
           aposLocale: 1
-        }, {});
-        await self.db.createIndex({ 'advisoryLock._id': 1 }, {});
+        }, { name: 'relatedReverseIds_aposLocale_index' });
+        await self.db.createIndex({ 'advisoryLock._id': 1 }, { name: 'advisoryLock._id_index' });
         await self.createTextIndex();
-        await self.db.createIndex({ parkedId: 1 }, {});
+        await self.db.createIndex({ parkedId: 1 }, { name: 'parkedId_index' });
         await self.db.createIndex({
           submitted: 1,
           aposLocale: 1
-        });
+        }, { name: 'submitted_aposLocale_index' });
         await self.db.createIndex({
           type: 1,
           aposDocId: 1,
           aposLocale: 1
-        });
+        }, { name: 'type_aposDocId_aposLocale_index' });
         await self.db.createIndex({
           aposDocId: 1,
           aposLocale: 1
-        });
+        }, { name: 'aposDocId_aposLocale_index' });
         await self.createPathLevelIndex();
       },
       async createTextIndex() {
@@ -510,7 +513,7 @@ module.exports = {
           // If this happens drop and recreate the text index
           if (e.toString().match(/different options/)) {
             self.apos.util.warn('Text index has unexpected weights or other misconfiguration, reindexing');
-            await self.db.dropIndex('highSearchText_text_lowSearchText_text_title_text_searchBoost_text');
+            await self.db.dropIndex('content_search_index');
             return await attempt();
           } else {
             throw e;
@@ -523,6 +526,7 @@ module.exports = {
             title: 'text',
             searchBoost: 'text'
           }, {
+            name: 'content_search_index',
             default_language: self.options.searchLanguage || 'none',
             weights: {
               title: 100,
@@ -535,7 +539,7 @@ module.exports = {
       },
       async createPathLevelIndex() {
         const params = self.getPathLevelIndexParams();
-        return self.db.createIndex(params, {});
+        return self.db.createIndex(params, { name: 'path_level' });
       },
 
       // Returns a query based on the permissions

@@ -417,7 +417,7 @@ module.exports = {
         return self.db.createIndex({
           userId: 1,
           createdAt: 1
-        });
+        }, { name: 'userId_createdAt_index' });
       }
     };
   }

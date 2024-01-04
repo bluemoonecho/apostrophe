@@ -1819,11 +1819,11 @@ database.`);
         await self.apos.doc.db.createIndex({
           path: 1,
           aposLocale: 1
-        });
+        }, { name: 'path_aposLocale_index' });
       },
       async ensureLevelRankIndex() {
         const params = self.getLevelRankIndexParams();
-        await self.apos.doc.db.createIndex(params, {});
+        await self.apos.doc.db.createIndex(params, { name: 'level_rank_index' });
       },
       getLevelRankIndexParams() {
         return {

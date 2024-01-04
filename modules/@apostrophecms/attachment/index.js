@@ -117,8 +117,8 @@ module.exports = {
     self.enableBrowserData();
 
     self.db = await self.apos.db.collection('aposAttachments');
-    await self.db.createIndex({ docIds: 1 });
-    await self.db.createIndex({ archivedDocIds: 1 });
+    await self.db.createIndex({ docIds: 1 }, { name: 'docIds_index' });
+    await self.db.createIndex({ archivedDocIds: 1 }, { name: 'archiveDocIds_index' });
     self.addLegacyMigrations();
     self.addSvgSanitizationMigration();
   },
