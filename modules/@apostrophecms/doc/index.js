@@ -513,7 +513,7 @@ module.exports = {
           // If this happens drop and recreate the text index
           if (e.toString().match(/different options/)) {
             self.apos.util.warn('Text index has unexpected weights or other misconfiguration, reindexing');
-            await self.db.dropIndex('content_search_index');
+            await self.db.dropIndex('content_text_index');
             return await attempt();
           } else {
             throw e;
@@ -526,7 +526,7 @@ module.exports = {
             title: 'text',
             searchBoost: 'text'
           }, {
-            name: 'content_search_index',
+            name: 'content_text_index',
             default_language: self.options.searchLanguage || 'none',
             weights: {
               title: 100,
@@ -539,7 +539,7 @@ module.exports = {
       },
       async createPathLevelIndex() {
         const params = self.getPathLevelIndexParams();
-        return self.db.createIndex(params, { name: 'path_level' });
+        return self.db.createIndex(params, { name: 'pathLevel_index' });
       },
 
       // Returns a query based on the permissions

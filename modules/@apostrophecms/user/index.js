@@ -284,7 +284,7 @@ module.exports = {
           unique: true
         });
         await self.safe.createIndex({ email: 1 }, {
-          name: 'email_unique_sparse_idx',
+          name: 'email_unique_sparse_index',
           unique: true,
           sparse: true
         });

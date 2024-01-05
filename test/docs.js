@@ -81,7 +81,7 @@ describe('Docs', function() {
     });
 
     // Lastly, make sure there is a text index present
-    assert(info.content_search_index[0][1] === 'text');
+    assert(info.content_text_index[0][1] === 'text');
   });
 
   it('should make sure there is no test data hanging around from last time', async function() {
@@ -848,14 +848,14 @@ describe('Docs', function() {
   });
 
   it('should be able to recover if the text index weights are mysteriously wrong at startup', async function() {
-    await apos.doc.db.dropIndex('content_search_index');
+    await apos.doc.db.dropIndex('content_text_index');
     await apos.doc.db.createIndex({
       highSearchText: 'text',
       lowSearchText: 'text',
       title: 'text',
       searchBoost: 'text'
     }, {
-      name: 'content_search_index',
+      name: 'content_text_index',
       default_language: 'none',
       weights: {
         // These are the weird weights we've seen when this
